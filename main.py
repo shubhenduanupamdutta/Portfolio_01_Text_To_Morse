@@ -1,8 +1,10 @@
-# TODO : Find out about morse code ✔
-# done
+# Find out about morse code ✔
+# Letters of word are separated by 3 dits, I will use 3 space
+# Words are separated by 7 dits, I will use 7 spaces
 
-# TODO: Map letters to morse code in a dictionary ✔
+# Map letters to morse code in a dictionary ✔
 # Using english letters for now, taken from GitHub https://gist.github.com/mohayonao/094c71af14fe4791c5dd
+
 LETTER_TO_MORSE = {
     "0": "-----",
     "1": ".----",
@@ -48,38 +50,31 @@ LETTER_TO_MORSE = {
     "/": "-..-.",
     "@": ".--.-.",
     "(": "-.--.",
-    ")": "-.--.-"
+    ")": "-.--.-",
+    " ": "    "  # one more space will be added during conversion
 }
 
 
-# # checking map
-# print(LETTER_TO_MORSE)
-# # Taken into dictionary ✅
+# Create a function that converts function to morse code ✔
 
-# Todo: Create a function that converts function to morse code ✔
-
-def text_to_morse(text):
-    """Converts text inputted into a morse code, and returns it with another str char_not_converted."""
-
+def text_to_morse(text: str) -> tuple[str, list[str]]:
+    """Converts text inputted into a morse code, and returns it with another str of char_not_converted."""
+    char_not_converted = []
     morse = ""
-    char_not_converted = ""
-    for character in text:
-        if character == " ":
-            morse += "       "
-        elif character not in LETTER_TO_MORSE:
-            char_not_converted += character + " "
+    for char in text:
+        if char in LETTER_TO_MORSE:
+            morse += LETTER_TO_MORSE[char] + "   "
         else:
-            morse += f"{LETTER_TO_MORSE[character]}   "
+            char_not_converted.append(char)
 
     return morse, char_not_converted
 
 
-# TODO: Call the function ✔
-morse_code, unable_to_parse = text_to_morse(input("Enter your text to be converted to Morse code: \n").lower())
-if len(unable_to_parse) > 0:
-    # Since unable_to_parse also contains spaces, length of unable to parse characters will be half
-    print(f"Unable to convert {len(unable_to_parse) // 2} characters: {unable_to_parse}")
+# Call the function ✔
+morse_code, unable_to_convert = text_to_morse(input("Enter your text to be converted to Morse code: \n").lower())
+if len(unable_to_convert) > 0:
+    print(f"Unable to convert {len(unable_to_convert)} characters: {' '.join(unable_to_convert)}")
 
-print(f"Your text in morse code is (after removing unable to parse characters) :\n {morse_code}")
+print(f"Your text in morse code is (after removing non convertable characters) :\n {morse_code}")
 
-# TODO: Check the results, everything is working as you wished ✔
+# Check the results, everything is working as you wished ✔
